@@ -17,7 +17,7 @@ export function renderHome(outlet) {
   const score         = 78;
 
   outlet.innerHTML = `
-    <div class="page" style="position:relative;z-index:1">
+    <div class="page mandala-bg" style="position:relative;z-index:1">
       <!-- Ambient orbs -->
       <div style="position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden">
         <div style="position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(108,99,255,0.10),transparent 70%);top:-150px;right:-150px;animation:floatSlow 12s ease-in-out infinite"></div>
@@ -36,6 +36,7 @@ export function renderHome(outlet) {
               <h1 class="home-welcome" style="font-size:clamp(1.8rem,4vw,3rem)">
                 ${store.t('welcome')}, <span class="grad-text">${(user.name || 'User').split(' ')[0]}!</span>
               </h1>
+              <p class="hindi-accent" style="margin-bottom:4px;font-size:0.78rem">🙏 नमस्ते — आपके लिए योजनाएं खोज रहे हैं</p>
               <p class="home-tagline" style="max-width:520px">${store.t('subWelcome')}</p>
             </div>
             <div style="display:flex;gap:var(--space-3);flex-shrink:0">
@@ -103,10 +104,12 @@ export function renderHome(outlet) {
 
         <!-- ── INDIA MAP SECTION ─────────────────────── -->
         <div class="anim-fade-in-up delay-200" style="margin-bottom:var(--space-8)">
+          <div class="warli-divider"></div>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-4)">
-            <div>
+            <div class="cultural-section-header">
               <h2 style="font-family:var(--font-heading);font-size:1.4rem;font-weight:800">🗺️ ${store.t('mapTitle')}</h2>
-              <p style="font-size:0.85rem;color:var(--text-secondary);margin-top:2px">${store.t('mapSubtitle')}</p>
+              <div class="section-hindi">स्थान के अनुसार योजनाएं खोजें</div>
+              <p style="font-size:0.85rem;color:var(--text-secondary);margin-top:3px">${store.t('mapSubtitle')}</p>
             </div>
             <button class="btn btn-ghost btn-sm" id="home-open-map">Full Map →</button>
           </div>
@@ -115,7 +118,11 @@ export function renderHome(outlet) {
 
         <!-- ── QUICK ACTIONS ─────────────────────────── -->
         <div class="anim-fade-in-up delay-300" style="margin-bottom:var(--space-8)">
-          <h2 style="font-family:var(--font-heading);font-size:1rem;font-weight:700;color:var(--text-muted);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:var(--space-4)">Quick Access</h2>
+          <div class="warli-divider"></div>
+          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:var(--space-4)">
+            <h2 style="font-family:var(--font-heading);font-size:1rem;font-weight:700;color:var(--text-muted);letter-spacing:0.5px;text-transform:uppercase">Quick Access</h2>
+            <span class="hindi-accent">त्वरित पहुँच</span>
+          </div>
           <div class="quick-actions">
             ${[
               { page:'schemes', emoji:'📋', title:store.t('schemes'),  desc:allSchemes.length+' schemes',     color:'#3B82F6' },
@@ -135,8 +142,12 @@ export function renderHome(outlet) {
 
         <!-- ── POPULAR SCHEMES ──────────────────────── -->
         <div class="anim-fade-in-up delay-400" style="margin-bottom:var(--space-8)">
+          <div class="warli-divider"></div>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-5)">
-            <h2 style="font-family:var(--font-heading);font-size:1.4rem;font-weight:800">🔥 Popular Schemes</h2>
+            <div class="cultural-section-header">
+              <h2 style="font-family:var(--font-heading);font-size:1.4rem;font-weight:800">🔥 Popular Schemes</h2>
+              <div class="section-hindi">लोकप्रिय सरकारी योजनाएं</div>
+            </div>
             <button class="btn btn-ghost btn-sm" id="view-all-schemes">View All →</button>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-4)" id="popular-schemes-grid">
@@ -148,7 +159,7 @@ export function renderHome(outlet) {
         <div style="
           padding:var(--space-5) var(--space-6);background:var(--glass-bg);
           border:1px solid var(--glass-border);border-radius:var(--radius-xl);
-          display:flex;align-items:center;gap:var(--space-4);margin-bottom:var(--space-10)
+          display:flex;align-items:center;gap:var(--space-4);margin-bottom:var(--space-6)
         " class="anim-fade-in-up delay-500">
           <div style="font-size:2rem">📱</div>
           <div style="flex:1">
@@ -157,6 +168,9 @@ export function renderHome(outlet) {
           </div>
           <button class="btn btn-ghost btn-sm" id="sms-btn">Send SMS</button>
         </div>
+
+        <!-- Lotus Footer Decoration -->
+        <div class="lotus-footer"></div>
 
       </div>
     </div>

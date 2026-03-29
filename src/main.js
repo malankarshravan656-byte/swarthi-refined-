@@ -3,6 +3,7 @@ import './styles/index.css';
 import './styles/animations.css';
 import './styles/components.css';
 import './styles/pages.css';
+import './styles/cultural.css';
 
 import { store } from './store.js';
 import { router } from './router.js';
