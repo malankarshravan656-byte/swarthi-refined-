@@ -1,0 +1,213 @@
+/* =============================================
+   SCHEMESETU – DESIGN SYSTEM
+   ============================================= */
+
+:root {
+  /* ── Core Brand ───────────────────── */
+  --primary:       #5B4FE8;
+  --primary-light: #7B72FF;
+  --primary-dark:  #4338CA;
+  --accent:        #EF4444;
+  --accent-light:  #F87171;
+  --success:       #10B981;
+  --warning:       #F59E0B;
+  --error:         #EF4444;
+
+  /* ── Card Accent Palette ──────────── */
+  --card-blue:   #3B82F6;
+  --card-yellow: #F59E0B;
+  --card-green:  #10B981;
+  --card-red:    #EF4444;
+
+  /* ── Tricolor ─────────────────────── */
+  --saffron:     #FF9933;
+  --india-white: #FFFFFF;
+  --india-green: #138808;
+  --navy:        #000080;
+
+  /* ── Backgrounds – LIGHT ──────────── */
+  --bg-base:     #F5F7FF;
+  --bg-surface:  #FFFFFF;
+  --bg-elevated: #FFFFFF;
+  --bg-hover:    #EEF0FF;
+
+  /* ── Glass – Light ────────────────── */
+  --glass-bg:            rgba(255,255,255,0.82);
+  --glass-bg-hover:      rgba(255,255,255,0.96);
+  --glass-border:        rgba(91,79,232,0.13);
+  --glass-border-strong: rgba(91,79,232,0.28);
+
+  /* ── Text – Dark on Light ─────────── */
+  --text-primary:   #1A1D2E;
+  --text-secondary: #5A6072;
+  --text-muted:     #9BA3BE;
+  --text-inverse:   #FFFFFF;
+
+  /* ── Gradients ────────────────────── */
+  --grad-primary:  linear-gradient(135deg, #5B4FE8 0%, #9D63FF 100%);
+  --grad-accent:   linear-gradient(135deg, #EF4444 0%, #FF9933 100%);
+  --grad-success:  linear-gradient(135deg, #10B981 0%, #059669 100%);
+  --grad-tricolor: linear-gradient(135deg, #FF9933 0%, #FFFFFF 50%, #138808 100%);
+  --grad-hero:     linear-gradient(135deg, #F5F7FF 0%, #EEF0FF 50%, #E8E4FF 100%);
+  --grad-card:     linear-gradient(145deg, rgba(91,79,232,0.06) 0%, rgba(255,255,255,0.95) 100%);
+
+  /* ── Shadows ──────────────────────── */
+  --shadow-sm:          0 2px 8px  rgba(91,79,232,0.08);
+  --shadow-md:          0 4px 24px rgba(91,79,232,0.12);
+  --shadow-lg:          0 8px 40px rgba(91,79,232,0.16);
+  --shadow-glow:        0 0 30px   rgba(91,79,232,0.22);
+  --shadow-glow-accent: 0 0 30px   rgba(239,68,68,0.22);
+  --shadow-glow-green:  0 0 30px   rgba(16,185,129,0.22);
+
+  /* ── Spacing ──────────────────────── */
+  --space-1: 4px;   --space-2: 8px;   --space-3: 12px;
+  --space-4: 16px;  --space-5: 20px;  --space-6: 24px;
+  --space-8: 32px;  --space-10: 40px; --space-12: 48px;
+  --space-16: 64px;
+
+  /* ── Border Radius ────────────────── */
+  --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px;
+  --radius-xl: 24px; --radius-2xl: 32px; --radius-full: 9999px;
+
+  /* ── Typography ───────────────────── */
+  --font-heading: 'Poppins', sans-serif;
+  --font-body:    'Inter', sans-serif;
+
+  /* ── Transitions ──────────────────── */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.25s ease;
+  --transition-slow: 0.4s ease;
+
+  /* ── Z-index Layers ───────────────── */
+  --z-base: 1; --z-elevated: 10; --z-navbar: 100;
+  --z-robot: 50; --z-overlay: 300; --z-toast: 400;
+}
+
+/* ---- Reset ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg-base);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+img, svg { display: block; max-width: 100%; }
+button { cursor: pointer; font-family: inherit; border: none; background: none; }
+input, select, textarea { font-family: inherit; }
+a { text-decoration: none; color: inherit; }
+ul, ol { list-style: none; }
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-surface); }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary-light); }
+
+/* ---- Utility classes ---- */
+.hidden { display: none !important; }
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.gap-1 { gap: var(--space-1); }
+.gap-2 { gap: var(--space-2); }
+.gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }
+.gap-6 { gap: var(--space-6); }
+.gap-8 { gap: var(--space-8); }
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.text-center { text-align: center; }
+.relative { position: relative; }
+.absolute { position: absolute; }
+.overflow-hidden { overflow: hidden; }
+.pointer { cursor: pointer; }
+
+/* Typography scale */
+.text-xs   { font-size: 0.75rem; }
+.text-sm   { font-size: 0.875rem; }
+.text-base { font-size: 1rem; }
+.text-lg   { font-size: 1.125rem; }
+.text-xl   { font-size: 1.25rem; }
+.text-2xl  { font-size: 1.5rem; }
+.text-3xl  { font-size: 1.875rem; }
+.text-4xl  { font-size: 2.25rem; }
+.text-5xl  { font-size: 3rem; }
+
+.font-medium  { font-weight: 500; }
+.font-semi    { font-weight: 600; }
+.font-bold    { font-weight: 700; }
+.font-black   { font-weight: 900; }
+.font-heading { font-family: var(--font-heading); }
+
+.text-primary   { color: var(--primary); }
+.text-accent    { color: var(--accent); }
+.text-success   { color: var(--success); }
+.text-warning   { color: var(--warning); }
+.text-muted     { color: var(--text-muted); }
+.text-secondary { color: var(--text-secondary); }
+
+/* Grid */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+
+@media (max-width: 768px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+}
+@media (max-width: 1024px) {
+  .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Container */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+/* Page wrapper */
+.page {
+  min-height: 100vh;
+  padding-top: 80px;
+  padding-bottom: var(--space-16);
+}
+
+/* Section */
+.section {
+  padding: var(--space-12) 0;
+}
+
+/* Gradient text */
+.grad-text {
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.grad-text-accent {
+  background: var(--grad-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.grad-text-tricolor {
+  background: var(--grad-tricolor);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Particle canvas */
+#particles-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}

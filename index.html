@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SchemeSetu – AI Government Scheme Assistant</title>
+  <meta name="description" content="SchemeSetu helps Indian citizens discover government schemes, check eligibility, and apply automatically using AI and voice assistance." />
+  <meta name="keywords" content="government schemes, india schemes, PM yojana, sarkari yojana, eligibility, apply online" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <link rel="stylesheet" href="/src/styles/index.css" />
+  <link rel="stylesheet" href="/src/styles/animations.css" />
+  <link rel="stylesheet" href="/src/styles/components.css" />
+  <link rel="stylesheet" href="/src/styles/pages.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Navbar -->
+    <nav id="navbar" class="navbar hidden"></nav>
+
+    <!-- Page outlet -->
+    <main id="page-outlet"></main>
+
+    <!-- Floating Robot Assistant -->
+    <div id="robot-container" class="robot-container hidden"></div>
+
+    <!-- Toast container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Global overlay for apply animation -->
+    <div id="apply-overlay" class="apply-overlay hidden"></div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
