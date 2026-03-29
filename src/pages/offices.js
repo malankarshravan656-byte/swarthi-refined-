@@ -20,34 +20,38 @@ export function renderOffices(outlet) {
   if (offices.length === 0) offices = officesData; // fallback
 
   outlet.innerHTML = `
-    <div class="page">
-      <div class="container">
+    <div class="page indian-bg mandala-bg" style="position:relative;z-index:1">
+      <div class="container" style="position:relative;z-index:1">
 
         <!-- Header -->
-        <div class="section-header anim-fade-in-up" style="margin-top:var(--space-6)">
-          <h1 style="font-family:var(--font-heading);font-size:2rem;font-weight:800">${store.t('officesTitle')}</h1>
-          <p>${store.t('officesSubtitle')}</p>
+        <div class="anim-fade-in-up page-header-cultural" style="margin-top:var(--space-2)">
+          <div class="cultural-section-header" style="align-items:center;text-align:center">
+            <h1 style="font-size:2rem">${store.t('officesTitle')}</h1>
+            <div class="section-hindi">नजदीकी सरकारी कार्यालय खोजें</div>
+            <p style="color:var(--text-secondary);margin-top:6px">${store.t('officesSubtitle')}</p>
+          </div>
         </div>
 
         <!-- Location Banner -->
         <div style="
           display:flex;align-items:center;gap:var(--space-4);
           padding:var(--space-5) var(--space-6);
-          background:rgba(108,99,255,0.1);
-          border:1px solid rgba(108,99,255,0.3);
+          background:linear-gradient(135deg,rgba(255,249,240,0.90),rgba(255,255,255,0.95));
+          border:1px solid rgba(255,153,51,0.20);
+          border-left:4px solid var(--saffron);
           border-radius:var(--radius-xl);
-          margin-bottom:var(--space-8)
+          margin-bottom:var(--space-6)
         " class="anim-fade-in-up delay-100">
           <div style="font-size:2rem">📍</div>
           <div>
-            <div style="font-weight:700;font-family:var(--font-heading)">
+            <div style="font-weight:700;font-family:'Crimson Pro',var(--font-heading),serif;font-size:1.05rem">
               ${userState ? `Showing offices near ${store.state.user?.city || userState}` : 'Simulated Location Active'}
             </div>
             <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:2px">
               ${offices.length} offices found within 15 km radius
             </div>
           </div>
-          <button class="btn btn-ghost btn-sm" id="refresh-location" style="margin-left:auto">
+          <button class="btn btn-ghost btn-sm" id="refresh-location" style="margin-left:auto;border-color:rgba(255,153,51,0.25)">
             🔄 Refresh Location
           </button>
         </div>
@@ -69,8 +73,9 @@ export function renderOffices(outlet) {
         <!-- CSC App Banner -->
         <div style="
           margin-top:var(--space-10);padding:var(--space-8);
-          background:linear-gradient(135deg,rgba(108,99,255,0.15),rgba(78,204,163,0.1));
-          border:1px solid rgba(108,99,255,0.3);
+          background:linear-gradient(135deg,rgba(255,249,240,0.85),rgba(240,255,245,0.80));
+          border:1px solid rgba(255,153,51,0.20);
+          border-top:3px solid var(--saffron);
           border-radius:var(--radius-2xl);
           display:flex;align-items:center;gap:var(--space-6);
         " class="anim-fade-in-up delay-400">

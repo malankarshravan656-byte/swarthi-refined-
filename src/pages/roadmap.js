@@ -14,23 +14,28 @@ export function renderRoadmap(outlet) {
   const roadmapStep = store.state.roadmapStep || 0;
 
   outlet.innerHTML = `
-    <div class="page roadmap-page">
-      <div class="container">
+    <div class="page roadmap-page indian-bg mandala-bg" style="position:relative;z-index:1">
+      <div class="container" style="position:relative;z-index:1">
 
         <!-- Header -->
-        <div class="section-header anim-fade-in-up" style="margin-top:var(--space-6)">
-          <h1 style="font-family:var(--font-heading);font-size:2rem;font-weight:800">${store.t('roadmapTitle')}</h1>
-          <p>${store.t('roadmapSubtitle')}</p>
+        <div class="anim-fade-in-up page-header-cultural" style="margin-top:var(--space-2)">
+          <div class="cultural-section-header" style="align-items:center;text-align:center">
+            <h1 style="font-size:2rem">${store.t('roadmapTitle')}</h1>
+            <div class="section-hindi">आवेदन यात्रा — अपनी प्रगति देखें</div>
+            <p style="color:var(--text-secondary);margin-top:6px">${store.t('roadmapSubtitle')}</p>
+          </div>
         </div>
 
         <!-- Progress Bar Overall -->
         <div style="margin-bottom:var(--space-8)" class="anim-fade-in-up delay-100">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-3)">
             <span style="font-size:0.875rem;color:var(--text-muted)">Overall Progress</span>
-            <span style="font-size:0.9rem;font-weight:700;color:var(--primary-light)">${Math.round((roadmapStep / STEPS.length) * 100)}%</span>
+            <span style="font-size:0.9rem;font-weight:700;color:var(--saffron)">${Math.round((roadmapStep / STEPS.length) * 100)}%</span>
           </div>
-          <div class="progress-bar-wrap">
-            <div class="progress-bar" id="roadmap-overall-bar" style="width:0%;transition:width 1.2s ease 0.5s"></div>
+          <div class="progress-bar-wrap" style="background:rgba(255,153,51,0.08)">
+            <div class="progress-bar" id="roadmap-overall-bar"
+              style="width:0%;transition:width 1.2s ease 0.5s;
+                background:linear-gradient(90deg,var(--saffron),var(--india-green))"></div>
           </div>
         </div>
 
@@ -51,10 +56,10 @@ export function renderRoadmap(outlet) {
                     width:64px;height:64px;border-radius:50%;
                     display:flex;align-items:center;justify-content:center;
                     font-size:1.6rem;
-                    border:3px solid ${status === 'completed' ? 'var(--success)' : status === 'active' ? 'var(--primary)' : 'rgba(255,255,255,0.15)'};
-                    background:${status === 'completed' ? 'rgba(78,204,163,0.15)' : status === 'active' ? 'rgba(108,99,255,0.15)' : 'var(--glass-bg)'};
-                    box-shadow:${status === 'active' ? '0 0 24px rgba(108,99,255,0.4)' : 'none'};
-                    animation:${status === 'active' ? 'glowPulse 2s ease-in-out infinite' : 'none'};
+                     border:3px solid ${status === 'completed' ? 'var(--india-green)' : status === 'active' ? 'var(--saffron)' : 'rgba(0,0,0,0.10)'};
+                     background:${status === 'completed' ? 'rgba(19,136,8,0.10)' : status === 'active' ? 'rgba(255,153,51,0.12)' : 'white'};
+                     box-shadow:${status === 'active' ? '0 0 22px rgba(255,153,51,0.38)' : 'none'};
+                     animation:${status === 'active' ? 'saffronGlow 2.2s ease-in-out infinite' : 'none'};
                     transition:all 0.5s ease ${i * 0.15}s;
                     flex-shrink:0;
                   ">

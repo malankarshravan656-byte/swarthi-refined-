@@ -12,15 +12,18 @@ export function renderSchemes(outlet) {
   const filter = store.state.schemeFilter || { category: 'all', search: '', state: null };
 
   outlet.innerHTML = `
-    <div class="page">
-      <div class="container">
+    <div class="page indian-bg mandala-bg" style="position:relative;z-index:1">
+      <div class="container" style="position:relative;z-index:1">
 
         <!-- Header -->
-        <div class="schemes-header anim-fade-in-up" style="padding-top:var(--space-6)">
-          <div style="display:flex;align-items:center;gap:var(--space-4);margin-bottom:var(--space-6)">
+        <div class="schemes-header anim-fade-in-up page-header-cultural">
+          <div style="display:flex;align-items:center;gap:var(--space-4);margin-bottom:var(--space-4)">
             <div>
-              <h1 style="font-family:var(--font-heading);font-size:2rem;font-weight:800">${store.t('schemesTitle')}</h1>
-              <p style="color:var(--text-secondary);margin-top:4px">${allSchemes.length}+ government schemes tailored for you</p>
+              <div class="cultural-section-header">
+                <h1 style="font-size:2rem">${store.t('schemesTitle')}</h1>
+                <div class="section-hindi">सरकारी योजनाएं — आपके लिए</div>
+              </div>
+              <p style="color:var(--text-secondary);margin-top:6px">${allSchemes.length}+ government schemes tailored for you</p>
             </div>
             <div style="margin-left:auto;display:flex;align-items:center;gap:var(--space-3)">
               <div id="voice-slot-schemes"></div>

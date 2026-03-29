@@ -9,12 +9,13 @@ export function renderMap(outlet) {
   setRobotMood('hint', true);
 
   outlet.innerHTML = `
-    <div class="page map-page">
-      <div class="container">
-        <div class="map-header anim-fade-in-up">
-          <div class="section-header">
-            <h1 style="font-family:var(--font-heading);font-size:2rem;font-weight:800">${store.t('mapTitle')}</h1>
-            <p>${store.t('mapSubtitle')}</p>
+    <div class="page map-page indian-bg" style="position:relative;z-index:1">
+      <div class="container" style="position:relative;z-index:1">
+        <div class="map-header anim-fade-in-up page-header-cultural">
+          <div class="cultural-section-header" style="align-items:center;text-align:center">
+            <h1>${store.t('mapTitle')}</h1>
+            <div class="section-hindi">राज्यवार सरकारी योजनाएं खोजें</div>
+            <p style="color:var(--text-secondary);margin-top:6px">${store.t('mapSubtitle')}</p>
           </div>
         </div>
 
@@ -44,19 +45,22 @@ export function renderMap(outlet) {
             </div>
 
             <!-- Popular States -->
-            <div style="background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:var(--radius-xl);padding:var(--space-5)">
-              <div style="font-size:0.8rem;font-weight:700;color:var(--text-muted);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:var(--space-4)">Popular States</div>
+            <div style="background:linear-gradient(135deg,rgba(255,249,240,0.85),rgba(255,255,255,0.95));
+              border:1px solid rgba(255,153,51,0.18);border-radius:var(--radius-xl);padding:var(--space-5);border-top:3px solid var(--saffron)">
+              <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:var(--space-4)">
+                <span style="font-size:0.75rem;font-weight:700;color:var(--text-muted);letter-spacing:0.8px;text-transform:uppercase">🏆 Top States</span>
+              </div>
               <div style="display:flex;flex-direction:column;gap:var(--space-2)">
-                ${['Maharashtra','Delhi','Uttar Pradesh','Karnataka','Tamil Nadu'].map(s => `
+                ${['Maharashtra','Uttar Pradesh','Karnataka','Rajasthan','Bihar'].map(s => `
                   <div class="state-list-item" data-state="${s}" style="
                     display:flex;align-items:center;justify-content:space-between;
-                    padding:10px 12px;border-radius:var(--radius-lg);
-                    background:var(--glass-bg);border:1px solid var(--glass-border);
-                    cursor:pointer;transition:all var(--transition-fast)
-                  " onmouseover="this.style.background='var(--glass-bg-hover)';this.style.borderColor='rgba(108,99,255,0.5)'"
-                    onmouseout="this.style.background='var(--glass-bg)';this.style.borderColor='var(--glass-border)'">
-                    <span style="font-size:0.875rem;font-weight:600">${s}</span>
-                    <span style="font-size:0.75rem;color:var(--primary-light);font-weight:700">${getSchemeCount(s)} schemes</span>
+                    padding:10px 14px;border-radius:var(--radius-lg);
+                    background:rgba(255,255,255,0.7);border:1px solid rgba(255,153,51,0.14);
+                    cursor:pointer;transition:all 0.35s ease
+                  " onmouseover="this.style.background='rgba(255,249,240,1)';this.style.borderColor='rgba(255,153,51,0.40)'"
+                    onmouseout="this.style.background='rgba(255,255,255,0.7)';this.style.borderColor='rgba(255,153,51,0.14)'">
+                    <span style="font-size:0.875rem;font-weight:600;color:var(--text-primary)">${s}</span>
+                    <span style="font-size:0.75rem;color:var(--saffron);font-weight:700">${getSchemeCount(s)}</span>
                   </div>
                 `).join('')}
               </div>

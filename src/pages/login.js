@@ -8,20 +8,25 @@ import { getAllStates } from '../data/states.js';
 export function renderLogin(outlet) {
   hideRobot();
   outlet.innerHTML = `
-    <div class="auth-page gradient-bg">
+    <div class="auth-page">
       <div class="auth-bg"></div>
       <div class="auth-orb auth-orb-1"></div>
       <div class="auth-orb auth-orb-2"></div>
 
-      <!-- Floating tricolor accent -->
-      <div style="position:absolute;top:0;left:0;right:0;height:4px;background:var(--grad-tricolor);z-index:2"></div>
+      <!-- Tricolor top accent -->
+      <div style="position:absolute;top:0;left:0;right:0;height:4px;
+        background:linear-gradient(90deg,var(--saffron) 0%,var(--saffron) 33%,
+          rgba(240,240,240,0.6) 33%,rgba(240,240,240,0.6) 66%,
+          var(--india-green) 66%,var(--india-green) 100%);z-index:2"></div>
 
-      <div class="auth-card">
+      <div class="auth-card" style="border-top:3px solid rgba(255,153,51,0.30)">
         <div class="auth-logo">
-          <div class="auth-logo-icon">🇮🇳</div>
+          <div class="auth-logo-icon" style="background:linear-gradient(135deg,#FF9933,#E67E00)">🇮🇳</div>
           <div>
-            <div class="auth-logo-name">Scheme<span>Setu</span></div>
-            <div style="font-size:0.7rem;color:var(--text-muted);text-align:center">${store.t('appTagline')}</div>
+            <div class="auth-logo-name" style="font-family:'Crimson Pro',var(--font-heading),serif;letter-spacing:0.3px">
+              Scheme<span style="color:var(--saffron)">Setu</span>
+            </div>
+            <div class="hindi-accent" style="text-align:center;margin-top:2px">आपकी योजना, आपका अधिकार</div>
           </div>
         </div>
 
@@ -57,7 +62,9 @@ export function renderLogin(outlet) {
             </div>
           </div>
 
-          <button type="submit" class="btn btn-primary w-full" style="margin-top:4px;padding:15px" id="login-submit-btn">
+          <button type="submit" class="btn btn-primary w-full" style="margin-top:4px;padding:15px;
+            background:linear-gradient(135deg,#FF9933,#E67E00);
+            box-shadow:0 4px 18px rgba(255,153,51,0.38)" id="login-submit-btn">
             ${store.t('login')}
           </button>
         </form>
@@ -70,13 +77,13 @@ export function renderLogin(outlet) {
         <!-- Demo hint -->
         <div style="
           margin-top:var(--space-5);padding:12px 16px;
-          background:rgba(108,99,255,0.08);
-          border:1px solid rgba(108,99,255,0.2);
+          background:rgba(255,153,51,0.07);
+          border:1px solid rgba(255,153,51,0.20);
           border-radius:var(--radius-lg);
           font-size:0.78rem;color:var(--text-muted);
           text-align:center;line-height:1.6
         ">
-          💡 Demo: use any email & password to login
+          💡 Demo: use any email &amp; password to login
         </div>
       </div>
     </div>
