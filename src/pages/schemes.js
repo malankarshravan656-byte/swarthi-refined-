@@ -1,34 +1,27 @@
 // Schemes Listing Page
 import { store } from '../store.js';
-import { showRobot, setRobotMood } from '../components/robot.js';
 import { createSchemeCard } from '../components/schemeCard.js';
 import { createVoiceButton } from '../components/voiceSearch.js';
 import { allSchemes, getSchemesByCategory, categories } from '../data/schemes.js';
+import schemesBannerImg from '../assets/schemes_banner.png';
 
 export function renderSchemes(outlet) {
-  showRobot();
-  setRobotMood('hint', true);
-
   const filter = store.state.schemeFilter || { category: 'all', search: '', state: null };
+  const isHi = store.state.language === 'hi';
 
   outlet.innerHTML = `
-    <div class="page indian-bg mandala-bg" style="position:relative;z-index:1">
-      <div class="container" style="position:relative;z-index:1">
+    <div class="mobile-inner-page">
 
-        <!-- Header -->
-        <div class="schemes-header anim-fade-in-up page-header-cultural">
-          <div style="display:flex;align-items:center;gap:var(--space-4);margin-bottom:var(--space-4)">
-            <div>
-              <div class="cultural-section-header">
-                <h1 style="font-size:2rem">${store.t('schemesTitle')}</h1>
-                <div class="section-hindi">सरकारी योजनाएं — आपके लिए</div>
-              </div>
-              <p style="color:var(--text-secondary);margin-top:6px">${allSchemes.length}+ government schemes tailored for you</p>
-            </div>
-            <div style="margin-left:auto;display:flex;align-items:center;gap:var(--space-3)">
-              <div id="voice-slot-schemes"></div>
-            </div>
-          </div>
+      <!-- Banner image -->
+      <img src="${schemesBannerImg}" alt="Government Schemes" class="mobile-banner-img"/>
+
+      <!-- Mobile page header -->
+      <div class="mobile-page-header" style="padding-top:14px">
+        <div class="page-title">${isHi ? 'सरकारी योजनाएं' : store.t('schemesTitle')}</div>
+        <div class="page-subtitle">${allSchemes.length}+ ${isHi ? 'योजनाएं आपके लिए उपलब्ध' : 'government schemes for you'}</div>
+      </div>
+
+      <div style="position:relative;z-index:1">
 
           <!-- Search -->
           <div class="search-bar" style="margin-bottom:var(--space-5)">
@@ -69,14 +62,14 @@ export function renderSchemes(outlet) {
         </div>
 
         <!-- Empty state -->
-        <div id="empty-state" class="hidden" style="text-align:center;padding:var(--space-16) 0">
-          <div style="font-size:4rem;margin-bottom:var(--space-4)">🔍</div>
-          <h3 style="font-family:var(--font-heading);font-weight:700;margin-bottom:var(--space-2)">${store.t('noSchemesFound')}</h3>
-          <p style="color:var(--text-muted);font-size:0.9rem">Try searching with different keywords or clearing filters</p>
+        <div id="empty-state" class="hidden" style="text-align:center;padding:40px 16px">
+          <div style="font-size:3rem;margin-bottom:12px">🔍</div>
+          <h3 style="font-size:0.9rem;font-weight:700;color:#1E0E00;margin-bottom:6px">${store.t('noSchemesFound')}</h3>
+          <p style="color:#A08060;font-size:0.8rem">Try different keywords or clear filters</p>
         </div>
 
-      </div>
-    </div>
+      </div><!-- /relative -->
+    </div><!-- /mobile-inner-page -->
   `;
 
   // Voice search

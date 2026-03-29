@@ -1,8 +1,9 @@
 // Nearby Government Offices Page
 import { store } from '../store.js';
-import { showRobot, setRobotMood } from '../components/robot.js';
+import { router } from '../router.js';
 import { officesData, getOfficesByState } from '../data/offices.js';
 import { showToast } from '../components/toast.js';
+import mapBannerImg from '../assets/map_banner.png';
 
 const TYPE_CONFIG = {
   csc:     { label: 'CSC Centre',      cls: 'badge-csc',  emoji: '🖥️' },
@@ -12,57 +13,47 @@ const TYPE_CONFIG = {
 };
 
 export function renderOffices(outlet) {
-  showRobot();
-  setRobotMood('hint', false);
-
+  const isHi = store.state.language === 'hi';
   const userState = store.state.user?.state;
   let offices = userState ? getOfficesByState(userState) : officesData;
-  if (offices.length === 0) offices = officesData; // fallback
+  if (offices.length === 0) offices = officesData;
 
   outlet.innerHTML = `
-    <div class="page indian-bg mandala-bg" style="position:relative;z-index:1">
-      <div class="container" style="position:relative;z-index:1">
+    <div class="mobile-inner-page">
 
-        <!-- Header -->
-        <div class="anim-fade-in-up page-header-cultural" style="margin-top:var(--space-2)">
-          <div class="cultural-section-header" style="align-items:center;text-align:center">
-            <h1 style="font-size:2rem">${store.t('officesTitle')}</h1>
-            <div class="section-hindi">नजदीकी सरकारी कार्यालय खोजें</div>
-            <p style="color:var(--text-secondary);margin-top:6px">${store.t('officesSubtitle')}</p>
-          </div>
-        </div>
+      <!-- Map banner image -->
+      <img src="${mapBannerImg}" alt="India Map" class="mobile-banner-img" style="height:140px"/>
 
-        <!-- Location Banner -->
-        <div style="
-          display:flex;align-items:center;gap:var(--space-4);
-          padding:var(--space-5) var(--space-6);
-          background:linear-gradient(135deg,rgba(255,249,240,0.90),rgba(255,255,255,0.95));
-          border:1px solid rgba(255,153,51,0.20);
-          border-left:4px solid var(--saffron);
-          border-radius:var(--radius-xl);
-          margin-bottom:var(--space-6)
-        " class="anim-fade-in-up delay-100">
+      <!-- Page header -->
+      <div class="mobile-page-header" style="padding-top:14px">
+        <div class="page-title">${isHi ? 'नजदीकी कार्यालय' : store.t('officesTitle')}</div>
+        <div class="page-subtitle">${offices.length} ${isHi ? 'कार्यालय मिले' : 'offices found nearby'}</div>
+      </div>
+
+      <div style="padding:12px 14px">
+
           <div style="font-size:2rem">📍</div>
+        <!-- Location pill -->
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;
+          background:#FEFAF5;border:1px solid rgba(220,180,120,0.3);border-left:4px solid #E07B00;
+          border-radius:14px;margin-bottom:12px">
+          <span style="font-size:1.3rem">📍</span>
           <div>
-            <div style="font-weight:700;font-family:'Crimson Pro',var(--font-heading),serif;font-size:1.05rem">
-              ${userState ? `Showing offices near ${store.state.user?.city || userState}` : 'Simulated Location Active'}
+            <div style="font-size:0.82rem;font-weight:700;color:#1E0E00">
+              ${userState ? `Near ${store.state.user?.city || userState}` : 'Simulated Location'}
             </div>
-            <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:2px">
-              ${offices.length} offices found within 15 km radius
-            </div>
+            <div style="font-size:0.68rem;color:#A08060">${offices.length} offices within 15 km</div>
           </div>
-          <button class="btn btn-ghost btn-sm" id="refresh-location" style="margin-left:auto;border-color:rgba(255,153,51,0.25)">
-            🔄 Refresh Location
-          </button>
+          <button class="home-map-btn" id="refresh-location" style="margin-left:auto;padding:6px 12px;font-size:0.7rem">🔄 Refresh</button>
         </div>
 
         <!-- Filter by type -->
-        <div class="filters-row anim-fade-in-up delay-200" style="margin-bottom:var(--space-6)">
-          <button class="filter-pill active" data-type="all" id="filter-all">🌐 All Types</button>
-          <button class="filter-pill" data-type="csc" id="filter-csc">🖥️ CSC Centres</button>
+        <div class="filters-row" style="margin-bottom:12px;display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;scrollbar-width:none">
+          <button class="filter-pill active" data-type="all" id="filter-all">🌐 All</button>
+          <button class="filter-pill" data-type="csc" id="filter-csc">🖥️ CSC</button>
           <button class="filter-pill" data-type="district" id="filter-district">🏛️ District</button>
-          <button class="filter-pill" data-type="block" id="filter-block">🏢 Block Office</button>
-          <button class="filter-pill" data-type="gram" id="filter-gram">🏘️ Gram Panchayat</button>
+          <button class="filter-pill" data-type="block" id="filter-block">🏢 Block</button>
+          <button class="filter-pill" data-type="gram" id="filter-gram">🏘️ Gram</button>
         </div>
 
         <!-- Offices Grid -->
@@ -70,30 +61,20 @@ export function renderOffices(outlet) {
           ${offices.map((office, i) => renderOfficeCard(office, i)).join('')}
         </div>
 
-        <!-- CSC App Banner -->
-        <div style="
-          margin-top:var(--space-10);padding:var(--space-8);
-          background:linear-gradient(135deg,rgba(255,249,240,0.85),rgba(240,255,245,0.80));
-          border:1px solid rgba(255,153,51,0.20);
-          border-top:3px solid var(--saffron);
-          border-radius:var(--radius-2xl);
-          display:flex;align-items:center;gap:var(--space-6);
-        " class="anim-fade-in-up delay-400">
-          <div style="font-size:3.5rem">📱</div>
+        <!-- CSC Banner -->
+        <div style="margin-top:16px;padding:14px 16px;
+          background:linear-gradient(135deg,rgba(255,249,235,0.95),rgba(254,250,245,0.98));
+          border:1px solid rgba(224,123,0,0.2);border-top:3px solid #E07B00;
+          border-radius:16px;display:flex;align-items:center;gap:12px">
+          <div style="font-size:2rem">📱</div>
           <div style="flex:1">
-            <h3 style="font-family:var(--font-heading);font-size:1.2rem;font-weight:800;margin-bottom:var(--space-2)">CSC Digital Seva</h3>
-            <p style="font-size:0.875rem;color:var(--text-secondary);line-height:1.6">
-              Common Service Centres offer 300+ government services. Get Aadhaar updates, certificates, insurance, banking and more — all at one place!
-            </p>
-            <div style="display:flex;gap:var(--space-3);margin-top:var(--space-4)">
-              <span style="padding:4px 12px;border-radius:var(--radius-full);background:rgba(108,99,255,0.2);border:1px solid rgba(108,99,255,0.4);font-size:0.75rem;font-weight:600;color:var(--primary-light)">🏛️ 5 Lakh+ CSC Centres</span>
-              <span style="padding:4px 12px;border-radius:var(--radius-full);background:rgba(78,204,163,0.15);border:1px solid rgba(78,204,163,0.3);font-size:0.75rem;font-weight:600;color:var(--success)">✅ 300+ Services</span>
-            </div>
+            <div style="font-size:0.85rem;font-weight:700;color:#1E0E00;margin-bottom:4px">CSC Digital Seva</div>
+            <div style="font-size:0.72rem;color:#7A5230;line-height:1.5">5 Lakh+ CSC Centres · 300+ services — Aadhaar, certificates, banking & more</div>
           </div>
         </div>
 
-      </div>
-    </div>
+      </div><!-- /padding div -->
+    </div><!-- /mobile-inner-page -->
   `;
 
   // Filter buttons

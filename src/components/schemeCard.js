@@ -96,6 +96,9 @@ export function createSchemeCard(scheme, index = 0) {
         <button class="btn btn-ghost btn-sm expand-btn" data-id="${scheme.id}" id="expand-btn-${scheme.id}">
           ${store.t('learnMore')} ▾
         </button>
+        <button class="btn btn-ghost btn-sm sms-btn" data-id="${scheme.id}" style="padding:4px 10px;border-radius:var(--radius-full);color:var(--primary)" title="Get Offline via SMS">
+          📱
+        </button>
       </div>
       <div class="eligibility-ring">
         <svg width="56" height="56" viewBox="0 0 56 56">
@@ -132,6 +135,15 @@ export function createSchemeCard(scheme, index = 0) {
     });
   }
 
+  // SMS button
+  const smsBtn = card.querySelector('.sms-btn');
+  if (smsBtn) {
+    smsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showSmsModal(scheme);
+    });
+  }
+
   return card;
 }
 
@@ -146,10 +158,15 @@ function showApplyAnimation(scheme) {
   const displayName = scheme[schemeNameKey] || scheme.name;
 
   const user = store.state.user || {};
+  
+  // DigiLocker Check
+  const docs = JSON.parse(localStorage.getItem('schemesetu_docs') || '{}');
+  const hasAadhaar = !!docs['aadhaar'];
+
   const fields = [
-    { label: 'Full Name', value: user.name || 'Ramesh Kumar', delay: 300 },
-    { label: 'Aadhaar Number', value: '****  ****  ' + Math.floor(1000 + Math.random() * 9000), delay: 700 },
-    { label: 'Date of Birth', value: '15 / 06 / 199' + Math.floor(0 + Math.random() * 9), delay: 1100 },
+    { label: 'Full Name', value: user.name || 'Ramesh Kumar', delay: 300, verified: hasAadhaar },
+    { label: 'Aadhaar Number', value: '****  ****  ' + Math.floor(1000 + Math.random() * 9000), delay: 700, verified: hasAadhaar },
+    { label: 'Date of Birth', value: '15 / 06 / 199' + Math.floor(0 + Math.random() * 9), delay: 1100, verified: hasAadhaar },
     { label: 'State', value: user.state || 'Maharashtra', delay: 1500 },
     { label: 'Annual Income', value: user.income || 'Below ₹1 Lakh', delay: 1900 },
     { label: 'Bank Account', value: 'SBIN0012****', delay: 2300 },
@@ -164,14 +181,27 @@ function showApplyAnimation(scheme) {
         <p style="font-size:0.85rem;color:var(--text-secondary);margin-top:4px">${displayName}</p>
       </div>
 
-      <div id="auto-fill-fields" style="display:flex;flex-direction:column;gap:var(--space-3);margin-bottom:var(--space-6)">
+      <div id="auto-fill-fields" style="display:flex;flex-direction:column;gap:var(--space-3);margin-bottom:var(--space-4)">
         ${fields.map(f => `
-          <div class="form-auto-field" id="aff-${f.label.replace(/\s/g,'-')}" style="display:flex;justify-content:space-between;">
-            <span style="font-size:0.8rem;color:var(--text-muted)">${f.label}</span>
-            <span id="aff-val-${f.label.replace(/\s/g,'-')}" style="font-size:0.85rem;color:var(--text-muted)">—</span>
+          <div class="form-auto-field" id="aff-${f.label.replace(/\s/g,'-')}" style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:0.8rem;color:var(--text-muted)">
+              ${f.label}
+              ${f.verified ? `<span style="font-size:0.65rem;color:var(--success);margin-left:4px;padding:1px 4px;border-radius:4px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3)">✅ DigiLocker Verified</span>` : ''}
+            </span>
+            <span id="aff-val-${f.label.replace(/\s/g,'-')}" style="font-size:0.85rem;color:var(--text-muted);font-weight:600">—</span>
           </div>
         `).join('')}
       </div>
+
+      ${!hasAadhaar ? `
+      <div style="background:rgba(108,99,255,0.05);border:1px dashed rgba(108,99,255,0.3);padding:10px;border-radius:var(--radius-md);margin-bottom:var(--space-5);text-align:left;display:flex;gap:10px;align-items:center;">
+        <span style="font-size:1.5rem">📄</span>
+        <div>
+          <div style="font-size:0.8rem;font-weight:700">Instant Verification Available</div>
+          <div style="font-size:0.7rem;color:var(--text-muted)">Link <a href="#digilocker" style="color:var(--primary)">DigiLocker</a> to auto-verify your Aadhaar & PAN securely.</div>
+        </div>
+      </div>
+      ` : ''}
 
       <div id="apply-progress-wrap" style="margin-bottom:var(--space-6)">
         <div style="display:flex;justify-content:space-between;margin-bottom:6px">
@@ -240,3 +270,70 @@ function showApplyAnimation(scheme) {
     if (e.target === overlay) overlay.classList.add('hidden');
   });
 }
+
+function showSmsModal(scheme) {
+  const overlay = document.getElementById('apply-overlay');
+  if (!overlay) return;
+
+  const schemeNameKey = store.state.language === 'hi' ? 'nameHi' :
+                        store.state.language === 'mr' ? 'nameMr' : 'name';
+  const displayName = scheme[schemeNameKey] || scheme.name;
+
+  overlay.classList.remove('hidden');
+  overlay.innerHTML = `
+    <div class="apply-form-box" style="text-align:center">
+      <div style="font-size:2.5rem;margin-bottom:8px">📱</div>
+      <h3 style="font-family:var(--font-heading);font-weight:700;font-size:1.2rem;margin-bottom:4px">Offline SMS Fallback</h3>
+      <p style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:16px">
+        Receive the application link, required documents list, and nearest CSC center address for <strong>${displayName}</strong> via SMS.
+      </p>
+
+      <div style="text-align:left;margin-bottom:20px">
+        <label style="font-size:0.8rem;font-weight:600;color:var(--text-primary);margin-bottom:6px;display:block">Mobile Number</label>
+        <div style="display:flex;border:1px solid var(--glass-border);border-radius:var(--radius-md);overflow:hidden">
+          <span style="background:var(--glass-bg);padding:10px;font-size:0.9rem;border-right:1px solid var(--glass-border)">+91</span>
+          <input type="tel" id="sms-phone-inp" value="${store.state.user?.phone || ''}" placeholder="Enter 10 digit number" style="flex:1;border:none;padding:10px;font-size:0.9rem;font-family:var(--font-body);outline:none;background:transparent" maxlength="10"/>
+        </div>
+      </div>
+
+      <div id="sms-status-wrap" style="display:none;margin-bottom:16px">
+        <div class="typing-indicator" style="justify-content:center;margin-bottom:8px">
+          <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
+        </div>
+        <div style="font-size:0.8rem;color:var(--text-muted)">Sending SMS via API Gateway...</div>
+      </div>
+
+      <div id="sms-success" style="display:none;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);padding:10px;border-radius:var(--radius-md);margin-bottom:16px">
+        <div style="font-size:0.85rem;color:var(--success);font-weight:700">✅ SMS Sent!</div>
+        <div style="font-size:0.75rem;color:var(--text-secondary);margin-top:4px">Check your phone. You can apply offline anytime by showing the SMS at a CSC center.</div>
+      </div>
+
+      <button id="send-sms-btn" class="btn btn-primary w-full">Send SMS</button>
+      <button id="close-sms-btn" class="btn btn-ghost w-full" style="margin-top:8px">Cancel</button>
+    </div>
+  `;
+
+  document.getElementById('close-sms-btn')?.addEventListener('click', () => {
+    overlay.classList.add('hidden');
+  });
+
+  document.getElementById('send-sms-btn')?.addEventListener('click', () => {
+    const phone = document.getElementById('sms-phone-inp').value;
+    if (phone.length < 10) { showToast('Please enter a valid 10-digit number', 'error'); return; }
+
+    document.getElementById('send-sms-btn').style.display = 'none';
+    document.getElementById('close-sms-btn').style.display = 'none';
+    document.getElementById('sms-status-wrap').style.display = 'block';
+
+    setTimeout(() => {
+      document.getElementById('sms-status-wrap').style.display = 'none';
+      document.getElementById('sms-success').style.display = 'block';
+      document.getElementById('close-sms-btn').style.display = 'block';
+      document.getElementById('close-sms-btn').textContent = 'Done';
+      showToast('SMS sending queued!', 'success');
+      setRobotMood('hint', true);
+      setTimeout(() => setRobotMood('wave'), 4000);
+    }, 1500);
+  });
+}
+

@@ -3,44 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SchemeSetu – AI Government Scheme Assistant</title>
+  <title>SchemeSetu – सरकारी योजनाओं का साथी</title>
   <meta name="description" content="SchemeSetu helps Indian citizens discover government schemes, check eligibility, and apply automatically using AI and voice assistance." />
-  <meta name="keywords" content="government schemes, india schemes, PM yojana, sarkari yojana, eligibility, apply online" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Noto+Serif+Devanagari:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Noto+Serif+Devanagari:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-
-  <!-- GSAP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
   <link rel="stylesheet" href="/src/styles/index.css" />
   <link rel="stylesheet" href="/src/styles/animations.css" />
   <link rel="stylesheet" href="/src/styles/components.css" />
   <link rel="stylesheet" href="/src/styles/pages.css" />
   <link rel="stylesheet" href="/src/styles/cultural.css" />
+  <link rel="stylesheet" href="/src/styles/mobile.css" />
 </head>
 <body>
   <div id="app">
-    <!-- Navbar -->
-    <nav id="navbar" class="navbar hidden"></nav>
+    <!-- Mobile phone shell -->
+    <div id="mobile-shell">
 
-    <!-- Page outlet -->
-    <main id="page-outlet"></main>
+      <!-- Top bar (rendered by JS per page) -->
+      <div id="mobile-topbar"></div>
 
-    <!-- Floating Robot Assistant -->
-    <div id="robot-container" class="robot-container hidden"></div>
+      <!-- Page content -->
+      <main id="page-outlet"></main>
 
-    <!-- Toast container -->
-    <div id="toast-container" class="toast-container"></div>
+      <!-- Bottom navigation -->
+      <nav id="bottom-nav" class="hidden"></nav>
 
-    <!-- Global overlay for apply animation -->
-    <div id="apply-overlay" class="apply-overlay hidden"></div>
+    </div>
   </div>
+
+  <!-- Toast container (outside shell so it overlays) -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Legacy hooks — kept for components that reference them -->
+  <nav id="navbar" class="hidden"></nav>
+  <div id="robot-container" class="hidden"></div>
+  <div id="apply-overlay" class="apply-overlay hidden"></div>
 
   <script type="module" src="/src/main.js"></script>
 </body>

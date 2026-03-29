@@ -44,9 +44,18 @@ export const router = {
     const handler = routes[path] || routes['home'];
     if (handler) {
       outlet.innerHTML = '';
+      // Chatbot needs flex column to fill height; other pages scroll normally
+      if (path === 'chatbot') {
+        outlet.style.display = 'flex';
+        outlet.style.flexDirection = 'column';
+        outlet.style.overflow = 'hidden';
+      } else {
+        outlet.style.display = '';
+        outlet.style.flexDirection = '';
+        outlet.style.overflow = '';
+      }
       handler(outlet, params);
-      // Scroll to top
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      outlet.scrollTop = 0;
     }
   },
 

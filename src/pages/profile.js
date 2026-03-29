@@ -1,13 +1,10 @@
 // Profile Page
 import { store } from '../store.js';
 import { router } from '../router.js';
-import { showRobot, setRobotMood } from '../components/robot.js';
 import { showToast } from '../components/toast.js';
 import { retrieveSchemes, detectLifeEvents } from '../ai/rag.js';
 
 export function renderProfile(outlet) {
-  showRobot();
-  setRobotMood('wave', true);
   const user = store.state.user || {};
   const lang = store.state.language || 'en';
 
@@ -20,8 +17,12 @@ export function renderProfile(outlet) {
   const initials = (user.name || 'U').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
 
   outlet.innerHTML = `
-    <div class="page" style="position:relative;z-index:1">
-      <div class="container" style="max-width:800px">
+    <div class="mobile-inner-page">
+      <div class="mobile-page-header">
+        <div class="page-title">${store.t('profile') || 'My Profile'}</div>
+        <div class="page-subtitle">${user.state || ''} · ${user.occupation || 'Citizen'}</div>
+      </div>
+      <div class="container" style="max-width:100%">
 
         <!-- Hero card -->
         <div style="
@@ -163,8 +164,8 @@ export function renderProfile(outlet) {
           </div>
         </div>
 
-      </div>
-    </div>
+      </div><!-- /container -->
+    </div><!-- /mobile-inner-page -->
   `;
 
   // Events

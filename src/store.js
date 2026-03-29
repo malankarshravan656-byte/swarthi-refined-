@@ -2,8 +2,12 @@
 import { en } from './i18n/en.js';
 import { hi } from './i18n/hi.js';
 import { mr } from './i18n/mr.js';
+import { gu } from './i18n/gu.js';
+import { pa } from './i18n/pa.js';
+import { ta } from './i18n/ta.js';
+import { te } from './i18n/te.js';
 
-const LANGUAGES = { en, hi, mr };
+const LANGUAGES = { en, hi, mr, gu, pa, ta, te };
 
 const defaultState = {
   user: null,
