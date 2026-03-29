@@ -1,4 +1,4 @@
-// Home Dashboard Page – with embedded India map
+// Home Dashboard Page – Cultural refinement v2
 import { store } from '../store.js';
 import { router } from '../router.js';
 import { showRobot, setRobotMood } from '../components/robot.js';
@@ -11,194 +11,240 @@ export function renderHome(outlet) {
   showRobot();
   setRobotMood('wave', true);
 
-  const user = store.state.user || {};
+  const user          = store.state.user || {};
   const eligibleCount = 23;
-  const missedAmount  = 64500;
   const score         = 78;
 
   outlet.innerHTML = `
-    <div class="page mandala-bg" style="position:relative;z-index:1">
+    <div class="page mandala-bg indian-bg" style="position:relative;z-index:1">
+
       <!-- Ambient orbs -->
       <div style="position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden">
-        <div style="position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(108,99,255,0.10),transparent 70%);top:-150px;right:-150px;animation:floatSlow 12s ease-in-out infinite"></div>
-        <div style="position:absolute;width:450px;height:450px;border-radius:50%;background:radial-gradient(circle,rgba(78,204,163,0.07),transparent 70%);bottom:80px;left:-100px;animation:floatSlow 10s ease-in-out infinite reverse"></div>
+        <div style="position:absolute;width:600px;height:600px;border-radius:50%;
+          background:radial-gradient(circle,rgba(255,153,51,0.07),transparent 70%);
+          top:-160px;right:-160px;animation:floatSlow 14s ease-in-out infinite"></div>
+        <div style="position:absolute;width:380px;height:380px;border-radius:50%;
+          background:radial-gradient(circle,rgba(19,136,8,0.05),transparent 70%);
+          bottom:80px;left:-100px;animation:floatSlow 11s ease-in-out infinite reverse"></div>
       </div>
 
       <div class="container" style="position:relative;z-index:1">
 
         <!-- ── HERO ─────────────────────────────────── -->
-        <div style="padding:var(--space-8) 0 var(--space-4)" class="anim-fade-in-up">
-          <div style="display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:var(--radius-full);background:rgba(108,99,255,0.15);border:1px solid rgba(108,99,255,0.3);font-size:0.75rem;font-weight:600;color:var(--primary-light);margin-bottom:var(--space-3)">
+        <div class="page-header-cultural anim-fade-in-up">
+
+          <div class="hero-badge">
             🇮🇳 ${store.t('appTagline')}
           </div>
+
           <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:var(--space-6);flex-wrap:wrap">
             <div>
-              <h1 class="home-welcome" style="font-size:clamp(1.8rem,4vw,3rem)">
-                ${store.t('welcome')}, <span class="grad-text">${(user.name || 'User').split(' ')[0]}!</span>
+              <h1 class="home-welcome font-display indian-underline"
+                style="font-size:clamp(1.8rem,4vw,2.8rem);font-family:'Crimson Pro',var(--font-heading),serif">
+                ${store.t('welcome')},
+                <span style="background:linear-gradient(135deg,var(--saffron),#E67E00);
+                  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">
+                  ${(user.name || 'User').split(' ')[0]}!
+                </span>
               </h1>
-              <p class="hindi-accent" style="margin-bottom:4px;font-size:0.78rem">🙏 नमस्ते — आपके लिए योजनाएं खोज रहे हैं</p>
-              <p class="home-tagline" style="max-width:520px">${store.t('subWelcome')}</p>
+              <p class="hindi-accent" style="margin:6px 0 4px">
+                🙏 नमस्ते — आपके लिए सर्वोत्तम योजनाएं खोजी जा रही हैं
+              </p>
+              <p class="home-tagline" style="max-width:520px;margin-top:6px">
+                ${store.t('subWelcome')}
+              </p>
             </div>
             <div style="display:flex;gap:var(--space-3);flex-shrink:0">
-              <button class="btn btn-primary" id="home-chat-ai" style="padding:12px 20px">💬 ${store.t('chatWithAI')}</button>
+              <button class="btn btn-primary" id="home-chat-ai"
+                style="background:linear-gradient(135deg,#FF9933,#E67E00);
+                  box-shadow:0 4px 18px rgba(255,153,51,0.38);padding:12px 22px">
+                💬 ${store.t('chatWithAI')}
+              </button>
               <div id="voice-slot-home"></div>
             </div>
           </div>
         </div>
 
-        <div style="
-          display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--space-4);
-          margin-bottom:var(--space-8);
-        " class="anim-fade-in-up delay-100">
-          <!-- Eligible Schemes – BLUE -->
-          <div style="
-            padding:var(--space-5);
-            background:linear-gradient(135deg,rgba(59,130,246,0.10),rgba(59,130,246,0.03));
-            border:1.5px solid rgba(59,130,246,0.25);border-radius:var(--radius-xl);
-            display:flex;align-items:center;gap:var(--space-4);
-            box-shadow:0 4px 16px rgba(59,130,246,0.10);
-          ">
-            <div style="width:50px;height:50px;border-radius:var(--radius-lg);background:rgba(59,130,246,0.15);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0">🎯</div>
-            <div>
-              <div style="font-family:var(--font-heading);font-size:2rem;font-weight:900;line-height:1;color:#3B82F6" id="stat-eligible">0</div>
-              <div style="font-size:0.75rem;color:var(--text-muted);margin-top:2px">${store.t('eligibleSchemes')}</div>
+        <!-- ── STAT CARDS ────────────────────────────── -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--space-4);
+          margin-bottom:var(--space-8)" class="anim-fade-in-up delay-100">
+
+          <!-- Eligible Schemes -->
+          <div class="stat-card" style="border-left:3px solid rgba(255,153,51,0.45)">
+            <div style="display:flex;align-items:center;gap:var(--space-4)">
+              <div style="width:48px;height:48px;border-radius:var(--radius-lg);
+                background:rgba(255,153,51,0.12);display:flex;align-items:center;
+                justify-content:center;font-size:1.4rem;flex-shrink:0">
+                <svg viewBox="0 0 28 28" width="22" height="22" fill="none">
+                  <circle cx="14" cy="14" r="12" stroke="#FF9933" stroke-width="1.4" opacity="0.7"/>
+                  <path d="M8 14h12M14 8v12M10 10l8 8M18 10l-8 8" stroke="#FF9933" stroke-width="0.9" opacity="0.45"/>
+                  <circle cx="14" cy="14" r="3" fill="#FF9933" opacity="0.55"/>
+                </svg>
+              </div>
+              <div>
+                <div class="stat-value" id="stat-eligible">0</div>
+                <div class="stat-label">${store.t('eligibleSchemes')}</div>
+              </div>
             </div>
           </div>
 
-          <!-- Motivational – YELLOW -->
-          <div style="
-            padding:var(--space-5);
-            background:linear-gradient(135deg,rgba(245,158,11,0.12),rgba(245,158,11,0.04));
-            border:1.5px solid rgba(245,158,11,0.30);border-radius:var(--radius-xl);
-            display:flex;align-items:center;gap:var(--space-4);
-            box-shadow:0 4px 16px rgba(245,158,11,0.10);
-          ">
-            <div style="font-size:2.2rem;flex-shrink:0">🌟</div>
-            <div>
-              <div style="font-size:0.68rem;font-weight:700;color:#B45309;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px">Today's Tip</div>
-              <div style="font-family:var(--font-heading);font-size:0.88rem;font-weight:700;color:var(--text-primary);line-height:1.35">Claim what's rightfully yours!</div>
-              <div style="font-size:0.68rem;color:var(--text-muted);margin-top:2px">₹2.5L Cr goes unclaimed yearly</div>
+          <!-- Daily Tip -->
+          <div class="stat-card" style="border-left:3px solid rgba(245,158,11,0.40);
+            background:linear-gradient(135deg,rgba(255,249,235,0.80),rgba(255,255,255,0.96))!important">
+            <div style="display:flex;align-items:center;gap:var(--space-4)">
+              <div style="font-size:1.6rem;flex-shrink:0">🪔</div>
+              <div>
+                <div style="font-size:0.65rem;font-weight:700;color:#B45309;
+                  text-transform:uppercase;letter-spacing:0.8px;margin-bottom:3px">
+                  आज का सुझाव
+                </div>
+                <div style="font-family:'Crimson Pro',var(--font-heading),serif;
+                  font-size:0.92rem;font-weight:600;color:var(--text-primary);line-height:1.4">
+                  Claim what's rightfully yours!
+                </div>
+                <div style="font-size:0.68rem;color:var(--text-muted);margin-top:2px">
+                  ₹2.5L Cr goes unclaimed yearly
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- Eligibility Score – GREEN -->
-          <div style="
-            padding:var(--space-5);
-            background:linear-gradient(135deg,rgba(16,185,129,0.10),rgba(16,185,129,0.03));
-            border:1.5px solid rgba(16,185,129,0.25);border-radius:var(--radius-xl);
-            display:flex;align-items:center;gap:var(--space-4);
-            box-shadow:0 4px 16px rgba(16,185,129,0.10);
-          ">
-            <svg width="56" height="56" viewBox="0 0 56 56" style="transform:rotate(-90deg);flex-shrink:0">
-              <circle cx="28" cy="28" r="22" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="5"/>
-              <circle cx="28" cy="28" r="22" fill="none" stroke="#10B981" stroke-width="5"
-                stroke-dasharray="${2*Math.PI*22}" stroke-dashoffset="${2*Math.PI*22}"
-                stroke-linecap="round" id="score-ring" style="transition:stroke-dashoffset 1.5s ease 0.5s"/>
-            </svg>
-            <div>
-              <div style="font-family:var(--font-heading);font-size:1.8rem;font-weight:900;color:#10B981;line-height:1" id="stat-score">0%</div>
-              <div style="font-size:0.75rem;color:var(--text-muted);margin-top:2px">${store.t('yourScore')}</div>
+          <!-- Eligibility Score -->
+          <div class="stat-card" style="border-left:3px solid rgba(19,136,8,0.35);
+            background:linear-gradient(135deg,rgba(240,255,244,0.75),rgba(255,255,255,0.96))!important">
+            <div style="display:flex;align-items:center;gap:var(--space-4)">
+              <svg width="54" height="54" viewBox="0 0 54 54" style="transform:rotate(-90deg);flex-shrink:0">
+                <circle cx="27" cy="27" r="21" fill="none" stroke="rgba(0,0,0,0.07)" stroke-width="4.5"/>
+                <circle cx="27" cy="27" r="21" fill="none" stroke="#138808" stroke-width="4.5"
+                  stroke-dasharray="${2*Math.PI*21}" stroke-dashoffset="${2*Math.PI*21}"
+                  stroke-linecap="round" id="score-ring"
+                  style="transition:stroke-dashoffset 1.6s ease 0.5s"/>
+              </svg>
+              <div>
+                <div style="font-family:'Crimson Pro',var(--font-heading),serif;
+                  font-size:2rem;font-weight:600;color:#138808;line-height:1" id="stat-score">0%</div>
+                <div class="stat-label">${store.t('yourScore')}</div>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- ── INDIA MAP SECTION ─────────────────────── -->
+        <!-- ── INDIA MAP ──────────────────────────────── -->
         <div class="anim-fade-in-up delay-200" style="margin-bottom:var(--space-8)">
           <div class="warli-divider"></div>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-4)">
             <div class="cultural-section-header">
-              <h2 style="font-family:var(--font-heading);font-size:1.4rem;font-weight:800">🗺️ ${store.t('mapTitle')}</h2>
+              <h2>🗺️ ${store.t('mapTitle')}</h2>
               <div class="section-hindi">स्थान के अनुसार योजनाएं खोजें</div>
-              <p style="font-size:0.85rem;color:var(--text-secondary);margin-top:3px">${store.t('mapSubtitle')}</p>
+              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">
+                ${store.t('mapSubtitle')}
+              </p>
             </div>
-            <button class="btn btn-ghost btn-sm" id="home-open-map">Full Map →</button>
+            <button class="btn btn-ghost btn-sm" id="home-open-map">
+              पूरा मानचित्र →
+            </button>
           </div>
           <div id="home-map-slot"></div>
         </div>
 
-        <!-- ── QUICK ACTIONS ─────────────────────────── -->
+        <!-- ── QUICK ACTIONS ──────────────────────────── -->
         <div class="anim-fade-in-up delay-300" style="margin-bottom:var(--space-8)">
           <div class="warli-divider"></div>
           <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:var(--space-4)">
-            <h2 style="font-family:var(--font-heading);font-size:1rem;font-weight:700;color:var(--text-muted);letter-spacing:0.5px;text-transform:uppercase">Quick Access</h2>
+            <h2 style="font-family:var(--font-heading);font-size:0.8rem;font-weight:700;
+              color:var(--text-muted);letter-spacing:0.8px;text-transform:uppercase">
+              Quick Access
+            </h2>
             <span class="hindi-accent">त्वरित पहुँच</span>
           </div>
           <div class="quick-actions">
             ${[
-              { page:'schemes', emoji:'📋', title:store.t('schemes'),  desc:allSchemes.length+' schemes',     color:'#3B82F6' },
-              { page:'chatbot', emoji:'🤖', title:store.t('chatbot'),  desc:'AI-guided eligibility',           color:'#5B4FE8' },
-              { page:'roadmap', emoji:'🛣️', title:store.t('roadmap'), desc:'Track application',               color:'#F59E0B' },
-              { page:'offices', emoji:'🏢', title:store.t('offices'),  desc:'Find CSC centers',                color:'#10B981' },
+              { page:'schemes',  icon:'📋', title:store.t('schemes'),  desc:allSchemes.length+' schemes',  cls:'blue'   },
+              { page:'chatbot',  icon:'🤖', title:store.t('chatbot'),  desc:'AI-guided eligibility',        cls:'purple' },
+              { page:'roadmap',  icon:'🛣️', title:store.t('roadmap'), desc:'Track application',             cls:''       },
+              { page:'offices',  icon:'🏛️', title:store.t('offices'),  desc:'Find CSC centers',             cls:'green'  },
             ].map(item => `
-              <div class="quick-action-card ripple-container" data-page="${item.page}" id="qac-${item.page}"
-                style="border-top:3px solid ${item.color};">
-                <div class="quick-action-icon" style="background:${item.color}1A">${item.emoji}</div>
-                <div class="quick-action-title" style="color:${item.color}">${item.title}</div>
-                <div class="quick-action-desc">${item.desc}</div>
+              <div class="action-card ${item.cls} ripple-container" data-page="${item.page}" id="qac-${item.page}">
+                <div class="action-icon">${item.icon}</div>
+                <div class="action-label">${item.title}</div>
+                <div class="action-sub">${item.desc}</div>
               </div>
             `).join('')}
           </div>
         </div>
 
-        <!-- ── POPULAR SCHEMES ──────────────────────── -->
+        <!-- ── POPULAR SCHEMES ────────────────────────── -->
         <div class="anim-fade-in-up delay-400" style="margin-bottom:var(--space-8)">
           <div class="warli-divider"></div>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-5)">
             <div class="cultural-section-header">
-              <h2 style="font-family:var(--font-heading);font-size:1.4rem;font-weight:800">🔥 Popular Schemes</h2>
+              <h2>🏆 Popular Schemes</h2>
               <div class="section-hindi">लोकप्रिय सरकारी योजनाएं</div>
             </div>
-            <button class="btn btn-ghost btn-sm" id="view-all-schemes">View All →</button>
+            <button class="btn btn-ghost btn-sm" id="view-all-schemes">सभी देखें →</button>
           </div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-4)" id="popular-schemes-grid">
-            ${[1,2,3,4].map(() => `<div class="skeleton" style="height:180px;border-radius:var(--radius-xl)"></div>`).join('')}
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-4)"
+            id="popular-schemes-grid">
+            ${[1,2,3,4].map(() =>
+              `<div class="skeleton" style="height:180px;border-radius:var(--radius-xl)"></div>`
+            ).join('')}
           </div>
         </div>
 
-        <!-- ── SMS BANNER ────────────────────────────── -->
+        <!-- ── SMS BANNER ─────────────────────────────── -->
         <div style="
-          padding:var(--space-5) var(--space-6);background:var(--glass-bg);
-          border:1px solid var(--glass-border);border-radius:var(--radius-xl);
+          padding:var(--space-5) var(--space-6);
+          background:linear-gradient(135deg,rgba(255,249,240,0.90),rgba(255,255,255,0.95));
+          border:1px solid rgba(255,153,51,0.18);
+          border-left:4px solid var(--saffron);
+          border-radius:var(--radius-xl);
           display:flex;align-items:center;gap:var(--space-4);margin-bottom:var(--space-6)
         " class="anim-fade-in-up delay-500">
-          <div style="font-size:2rem">📱</div>
+          <div style="font-size:1.8rem">📱</div>
           <div style="flex:1">
-            <div style="font-family:var(--font-heading);font-weight:700">${store.t('smsOption')}</div>
-            <div style="font-size:0.82rem;color:var(--text-secondary)">Get scheme details offline on your phone</div>
+            <div style="font-family:'Crimson Pro',var(--font-heading),serif;font-weight:600;font-size:1.05rem">
+              ${store.t('smsOption')}
+            </div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:2px">
+              Get scheme details offline on your phone — बिना इंटरनेट के
+            </div>
           </div>
-          <button class="btn btn-ghost btn-sm" id="sms-btn">Send SMS</button>
+          <button class="btn btn-outline btn-sm" id="sms-btn"
+            style="border-color:var(--saffron);color:#b35c00;flex-shrink:0">
+            Send SMS
+          </button>
         </div>
 
-        <!-- Lotus Footer Decoration -->
+        <!-- Lotus Footer -->
         <div class="lotus-footer"></div>
 
       </div>
     </div>
   `;
 
-  // ── Animated counters ─────────────────────────────────────────
+  // ── Animated counters ──────────────────────────────────────
   animateCounter('stat-eligible', 0, eligibleCount, '', 1200);
   setTimeout(() => {
     const scoreEl = document.getElementById('stat-score');
     const ring    = document.getElementById('score-ring');
     if (scoreEl) scoreEl.textContent = `${score}%`;
-    if (ring) ring.style.strokeDashoffset = String(2 * Math.PI * 22 * (1 - score / 100));
+    if (ring) ring.style.strokeDashoffset = String(2 * Math.PI * 21 * (1 - score / 100));
   }, 600);
 
-  // ── Embed compact India map ───────────────────────────────────
+  // ── Embed compact India map ───────────────────────────────
   const mapSlot = document.getElementById('home-map-slot');
   if (mapSlot) {
     const mapEl = createIndiaMap({
       compact: true,
       onSelect: (state) => {
         setRobotMood('hint', true);
-        showToast(`📍 ${state} selected — ${Math.floor(30 + Math.random()*40)} schemes available`, 'success', 3000);
+        showToast(`📍 ${state} — ${Math.floor(30 + Math.random()*40)} schemes available`, 'success', 3000);
       }
     });
     mapSlot.appendChild(mapEl);
   }
 
-  // ── Voice search ──────────────────────────────────────────────
+  // ── Voice search ─────────────────────────────────────────
   const voiceSlot = document.getElementById('voice-slot-home');
   if (voiceSlot) {
     const vBtn = createVoiceButton((text) => {
@@ -209,11 +255,11 @@ export function renderHome(outlet) {
     voiceSlot.appendChild(vBtn);
   }
 
-  // ── Events ────────────────────────────────────────────────────
+  // ── Events ───────────────────────────────────────────────
   document.getElementById('home-chat-ai')?.addEventListener('click', () => router.navigate('chatbot'));
   document.getElementById('home-open-map')?.addEventListener('click', () => router.navigate('map'));
   document.getElementById('view-all-schemes')?.addEventListener('click', () => router.navigate('schemes'));
-  document.querySelectorAll('.quick-action-card').forEach(c =>
+  document.querySelectorAll('.action-card').forEach(c =>
     c.addEventListener('click', () => router.navigate(c.dataset.page))
   );
   document.getElementById('sms-btn')?.addEventListener('click', showSmsModal);
@@ -248,11 +294,16 @@ function showSmsModal() {
   const modal = document.createElement('div');
   modal.className = 'modal-overlay';
   modal.innerHTML = `
-    <div class="modal-box">
+    <div class="modal-box" style="border-top:3px solid var(--saffron)">
       <div style="text-align:center;margin-bottom:var(--space-5)">
-        <div style="font-size:2.5rem;margin-bottom:8px">📲</div>
-        <h3 style="font-family:var(--font-heading);font-weight:700;font-size:1.2rem">Get Schemes via SMS</h3>
-        <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">We'll send matching schemes to your phone</p>
+        <div style="font-size:2.2rem;margin-bottom:8px">📲</div>
+        <h3 style="font-family:'Crimson Pro',var(--font-heading),serif;font-weight:600;font-size:1.3rem">
+          Get Schemes via SMS
+        </h3>
+        <p class="hindi-accent" style="margin-top:4px">एसएमएस पर योजनाएं पाएं</p>
+        <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">
+          We'll send matching schemes to your phone
+        </p>
       </div>
       <div class="input-group" style="margin-bottom:var(--space-4)">
         <label class="input-label">Mobile Number</label>
@@ -260,7 +311,9 @@ function showSmsModal() {
       </div>
       <div style="display:flex;gap:var(--space-3)">
         <button class="btn btn-ghost" style="flex:1" id="sms-close">Cancel</button>
-        <button class="btn btn-primary" style="flex:1" id="sms-send">Send SMS</button>
+        <button class="btn btn-primary" style="flex:1;background:linear-gradient(135deg,#FF9933,#E67E00)" id="sms-send">
+          Send SMS
+        </button>
       </div>
     </div>`;
   document.body.appendChild(modal);
@@ -269,7 +322,7 @@ function showSmsModal() {
     const phone = document.getElementById('sms-phone')?.value;
     if (!phone || phone.length < 10) { showToast('Enter valid phone number', 'error'); return; }
     modal.remove();
-    showToast(`SMS sent to ${phone}! ✅`, 'success', 4000);
+    showToast(`✅ SMS sent to ${phone}! योजनाएं भेज दी गई हैं`, 'success', 4000);
   });
   modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
 }
